@@ -1,37 +1,62 @@
 <%- include('partials/header') -%>
-<div class="container">
-  <div class="row justify-content-center mt-5">
-    <div class="col-6">
-      <h2><%= post.title %></h2>
-      <img class="img-fluid" src="<%= post.image%>" />
-      <div class="row justify-content-between">
-        <form
-          class="col-1"
-          action="/post/likePost/<%= post.id %>?_method=PUT"
-          method="POST"
-        >
-          <button class="btn btn-primary fa fa-heart" type="submit"></button>
-        </form>
-        <h3 class="col-3">Likes: <%= post.likes %></h3>
-        <%if(post.user == user.id){ %>
-        <form
-          action="/post/deletePost/<%= post.id %>?_method=DELETE"
-          method="POST"
-          class="col-3"
-        >
-          <button class="btn btn-primary fa fa-trash" type="submit"></button>
-        </form>
-        <%}%>
-      </div>
-    </div>
-    <div class="col-3 mt-5">
-      <p><%= post.caption %></p>
-    </div>
-    <div class="col-6 mt-5">
+ 
+  <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white mx-auto">
+    <div class="col-6 mt-5 flex place-content-between">
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
       <a class="btn btn-primary" href="/feed">Return to Feed</a>
     </div>
-  </div>
-</div>
+    <img class="w-full" src="<%= post.image%>" alt="Card Image">
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">
+        <%= post.title %>
+      </div>
+      <p class="text-gray-700 text-base">
+        <%= post.caption %>
+      </p>
+    </div>
+    <div class="px-6 pt-4 pb-2 flex   place-content-between">
 
-<%- include('partials/footer') -%>
+      <form class="" action="/post/likePost/<%= post.id %>?_method=PUT" method="POST">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded fa fa-heart"
+          type="submit"></button>
+          <h3 class="col-3">Likes: <%= post.likes %>
+          </h3>
+      </form>
+      
+      <%if(post.user==user.id){ %>
+        <form action="/post/deletePost/<%= post.id %>?_method=DELETE" method="POST" class="">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded fa fa-trash"
+            type="submit"></button>
+        </form>
+        <%}%>
+
+    </div>
+    <!-- Comments Section -->
+    <div class="px-6 py-4 border-t border-gray-200">
+      <h3 class="font-semibold text-lg mb-2">Comments</h3>
+      <div class="space-y-2 max-h-40 overflow-y-auto">
+        <ul>
+          <% for(var i=0; i<comments.length; i++) {%>
+            <li class="text-gray-600 text-sm">
+              <%= comments[i].comment%>
+            </li>
+            <%}%>
+        </ul>
+
+
+      </div>
+      <form action="/comment/createComment/<%= post._id%>" method="POST">
+        <div class="mb-3">
+          <input type="text" class="w-full mt-3 p-2 border rounded resize-none text-sm" rows="3"
+            placeholder="Add a comment..." id="comment" name="comment">
+        </div>
+
+        <button type="submit" class="bg-blue-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" value="Upload">Submit</button>
+      </form>
+
+    </div>
+  </div>
+
+
+  </body>
+  <%- include('partials/footer') -%>

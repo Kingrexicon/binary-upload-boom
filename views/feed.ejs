@@ -1,15 +1,30 @@
 <%- include('partials/header') -%>
   <div class="container">
-    <div class="row justify-content-center mt-5">
-      <ul class="row list-unstyled">
-        <% for(var i=0; i<posts.length; i++) {%>
-          <li class="col-6 justify-content-between mt-5">
-            <a href="/post/<%= posts[i]._id%>">
-              <img class="img-fluid" src="<%= posts[i].image%>">
-            </a>
-          </li>
-        <% } %>
-        </ul>
+     <div class="col-6 mt-5 flex place-content-between">
+      <a class="btn btn-primary" href="/profile">Return to Profile</a>
+      <a class="btn btn-primary" href="/logout">logout</a>
     </div>
-  </div>  
-<%- include('partials/footer') -%>
+    <div class="flex flex-wrap justify-center gap-6 p-4">
+      <% for(var i=0; i<posts.length; i++) {%>
+        <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+          <a href="/post/<%= posts[i]._id%>">
+            <img class="w-full" src="<%= posts[i].image%>" alt="Card Image"></a>
+          <div class="px-6 py-4">
+            <div class="font-bold text-xl mb-2">
+              <%= posts[i].title%>
+            </div>
+            
+            <p class="text-gray-700 text-base">
+              <%= posts[i].likes %> <span class="btn btn-primary fa fa-heart"></span>
+                <div class="px-6 pt-4 pb-6">
+                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <a href="/post/<%= posts[i]._id%>">Open</a>
+                  </button>
+                </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>
+
+  <%- include('partials/footer') -%>
