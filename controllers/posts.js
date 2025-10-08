@@ -15,12 +15,14 @@ module.exports = {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" }).lean();
       res.render("feed.ejs", { posts: posts, user: req.user });
+      
     } catch (err) {
       console.log(err);
-    }
+    } 
   },
   getPost: async (req, res) => {
     try {
+      
       const post = await Post.findById(req.params.id);
       const comments  =  await Comment.find({post:req.params .id}).sort({createdAt: "desc"}).lean()
       res.render("post.ejs", { post: post, comments: comments, user: req.user });
@@ -31,9 +33,9 @@ module.exports = {
   }, 
   createPost: async (req, res) => {
     try {
-      // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
-
+     
+     const result = await cloudinary.uploader.upload(req.file.path);
+ 
       await Post.create({
         title: req.body.title,
         image: result.secure_url,
@@ -41,7 +43,8 @@ module.exports = {
         caption: req.body.caption,
         likes: 0,
         user: req.user.id,
-      });
+        uname: req.user.userName,
+      }); 
       console.log("Post has been added!");
       res.redirect("/profile");
     } catch (err) {
